@@ -1,4 +1,4 @@
-# ALAB 316.3.1: DOM Manipulation (Part Two)
+<h1> ALAB 316.3.1: DOM Manipulation (Part Two)
 
 ## Introduction
 This lab is the second of a two-part assignment in which you will manipulate the DOM using various tools and techniques. This portion of the activity focuses on making elements dynamic and interactive using DOM events and event-driven programming techniques.
@@ -127,11 +127,11 @@ The second line of code within the function should immediately return if the e
 Log the content of the <a> to verify the handler is working.
 Next, the event listener should set the CSS top property of subMenuEl to 0.
 Remove the active class from each <a> element in topMenuLinks.
-Update the contents of mainEl, within an <h1>, to the contents of the <a> element clicked within subMenuEl.
-If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
+Update the contents of mainEl, within an, to the contents of the <a> element clicked within subMenuEl.
+If the ABOUT link is clicked, anAbout should be displayed.
 
 ### Part 6: Completion and Code Review
 
 Test your menu! If it works in a way that makes sense, you have likely been successful. Your instructor has been provided with a completed version of this assignment, and time permitting, will do a brief code review so that you can make comparisons with your own approaches.
 Remember, functionality is key! There are many ways to arrive at the same solution in development, and often the difference in syntax between two solutions is inconsequential. If it works, good job!
-Remember to submit the link to this part of the project to Canvas using the submission instructions at the beginning of this document.# domManipulation2-JS
+Remember to submit the link to this part of the project to Canvas using the submission instructions at the beginning of this document.

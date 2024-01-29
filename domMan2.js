@@ -72,13 +72,13 @@ Throughout this process, note that you are also becoming accustomed to another i
  */
 
 // 1.Select and cache the <nav id="sub-menu"> element in a variable named subMenuEl.
-const subMenuEl = document.querySelector(`main`);
+const subMenuEl = document.querySelector(`sub-menu`);
 
 // 2.Set the height subMenuEl element to be "100%".
 subMenuEl.style.height = `100%`;
 
 // 3.Set the background color of subMenuEl to the value stored in the --sub-menu-bg CSS custom property.
-subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
+subMenuEl.style.backgroundColor = `var(--sub-menu-bg)`;
 
 // 4.Add the class of flex-around to the subMenuEl element.
 subMenuEl.classList.add(`flex-around`);
@@ -86,32 +86,36 @@ subMenuEl.classList.add(`flex-around`);
 // Now, change the position of the submenu to temporarily hide it. Later, we will make the submenu appear dynamically based on user interaction:
 
 // 1.Set the CSS position property of subMenuEl to the value of absolute.
-subMenuEl.style.position = `absolete`;
-console.log(subMenuEl);
+subMenuEl.style.position = `absolute`;
+// console.log(subMenuEl);
 
 // 2.Set the CSS top property of subMenuEl to the value of 0.
-subMenuEl.style.top = `0`;
+subMenuEl.style.top = 0;
 
 /*
 Part 4: Adding Menu Interaction
 In order to add submenu links, we will need to restructure the menuLinks array within index.js. 
 */
-// Menu data structure
+// Given Menu data structure
 var menuLinks = [
     { text: 'about', href: '/about' },
     { text: 'catalog', href: '/catalog' },
     { text: 'orders', href: '/orders' },
     { text: 'account', href: '/account' },
   ];
+let topMenuLinks = [];
 
+//In order to add interaction:
+// 1.Select and cache the all of the <a> elements inside of topMenuEl in a variable named topMenuLinks.
 menuLinks.forEach(menu) => {
-    const link = document.createElement("a");
+    const link = document.createElement(`a`);
     link.innerHTML = menu.text;
     link.href = '${menu.href}';
     topMenuEl.appendChild(link);
     topMenuLinks.push(link)
 };
 
+//restructured the menuLinks array
 let cataLofArray = [
       {text: 'all', href: '/catalog/all'},
       {text: 'top selling', href: '/catalog/top'},
@@ -135,53 +139,43 @@ menuLinks.forEach((menu) => {
     } else if (menu.text === "account") {
         menu.subLinks = accountArray;
     }
-});
+})
 
+// 2.Attach a delegated 'click' event listener to topMenuEl.
+topMenuEl.addEventListener("click", event) => {
 
-/*
-In order to add interaction:
-*/
-// Select and cache the all of the <a> elements inside of topMenuEl in a variable named topMenuLinks.
-const topMenuLinks = document.querySelector(`a`);
-
-// Attach a delegated 'click' event listener to topMenuEl.
-const topMenuEl = document.getElementById("topMenuEl")[0]
-
-
-// The first line of code of the event listener function should call the event object's preventDefault() method.
-topMenuEl.addEventListener("click", e) => {
+// a. The first line of code of the event listener function should call the event object's preventDefault() method.
     e.preventDefault();
-    if (e.target.tagName === "A"){
-        e.target.classList.add("active");
-        console.log(e.target)
+    if (event.target.tagName === `A`){
+        event.target.classList.add(`active`);
+        console.log(event.target)
     } 
 
-// The second line of code of the function should immediately return if the element clicked was not an <a> element.
-    if(e.target.classList.contains("active")){
-        e.target.classList.remove("active")
+// b.The second line of code of the function should immediately return if the element clicked was not an <a> element.
+    if(event.target.classList.contains(`active`)) {
+        event.target.classList.remove(`active`)
     }
-// Log the content of the <a> to verify the handler is working.
-console.log();
+// c.  Log the content of the <a> to verify the handler is working.
+// console.log(a);
 
 /*
 Now that we have references to each of these links, and a registered event listener, we will want to add a toggled "active" state to each menu item, showing whether or not it is currently selected:
 */
 
-// The event listener should add the active class to the <a> element that was clicked, unless it was already active, in which case it should remove it.
+// 1.The event listener should add the active class to the <a> element that was clicked, unless it was already active, in which case it should remove it.
+// 2.The event listener should remove the active class from each other <a> element in topMenuLinks - whether the active class exists or not.
+// Hint: Removing a non-existent class from an element does not cause an error!
     menuLinks.forEach((link) => {
         if (link.text === "about" && link.href === "/about"){
-            subMenuEl.style.top= 0;
+            subMenuEl.style.top = 0;
         }else if (link["subLinks"]){
             subMenuEl.style.top= "100%";
         }
     })
 }
    
-// The event listener should remove the active class from each other <a> element in topMenuLinks - whether the active class exists or not.
-
-// Hint: Removing a non-existent class from an element does not cause an error!
-
 /*
+Part 5: Adding Submenu Interaction
 Within the same event listener, we want to toggle the submenu between active and non-active states. First, we will set the submenu to show or hide itself depending on the menu state:
  */
 
@@ -190,6 +184,74 @@ Within the same event listener, we want to toggle the submenu between active and
 // b.Otherwise, set the CSS top property of subMenuEl to 0.
 // Hint: Caching the "link" object will come in handy for passing its subLinks array later.
 
-/*
+let subCatagories = [
+    {
+      text: "catalog",
+      href: "#",
+      subLinks: [
+        { text: "all", href: "/catalog/all" },
+        { text: "top selling", href: "/catalog/top" },
+        { text: "search", href: "/catalog/search" },
+      ],
+    },
+    {
+      text: "orders",
+      href: "#",
+      subLinks: [
+        { text: "new", href: "/orders/new" },
+        { text: "pending", href: "/orders/pending" },
+        { text: "history", href: "/orders/history" },
+      ],
+    },
+    {
+      text: "account",
+      href: "#",
+      subLinks: [
+        { text: "profile", href: "/account/profile" },
+        { text: "sign out", href: "/account/signout" },
+      ],
+    },
+  ];
+  
 
- */
+
+subCatagories.forEach((category) => {
+    const link = document.createElement("a");
+
+// 1. Clear the current contents of subMenuEl.
+// 2. Iterate over the subLinks array, passed as an argument, and for each "link" object:
+// a.Create an <a> element.
+// b.Add an href attribute to the <a>, with the value set by the href property of the "link" object.
+// c.Set the element's content to the value of the text property of the "link" object.
+// d.Append the new element to the subMenuEl.
+if (category.text === "catalog") {
+    link.innerText = category.subLinks.text;
+    link.href = `${category.subLinks.href}`;
+    subMenuEl.appendChild(link);
+  } else if (category.text === "orders") {
+    link.innerText = category.subLinks.text;
+    link.href = `${category.subLinks.href}`;
+    subMenuEl.appendChild(link);
+  } else if (category.text === "account") {
+    link.innerText = category.subLinks.text;
+    link.href = `${category.subLinks.href}`;
+    subMenuEl.appendChild(link);
+  }
+});
+
+// The menu is almost complete! Now, we need to add interactions to the submenu items themselves:
+// 1.Attach a delegated 'click' event listener to subMenuEl.
+
+// a.The first line of code of the event listener function should call the event object's preventDefault() method.
+
+// b.The second line of code within the function should immediately return if the element clicked was not an <a> element.
+
+// c.Log the content of the <a> to verify the handler is working.
+
+// 2.Next, the event listener should set the CSS top property of subMenuEl to 0.
+
+// 3.Remove the active class from each <a> element in topMenuLinks.
+
+// 4.Update the contents of mainEl, within an <h1>, to the contents of the <a> element clicked within subMenuEl.
+
+// 5.If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
